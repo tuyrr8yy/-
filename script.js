@@ -169,3 +169,47 @@ if (loginForm) {
         }
     });
 }
+// إنشاء واجهة تسجيل الدخول برمجياً لتظهر فوراً على الموقع
+(function() {
+    if (document.getElementById('loginScreen')) return;
+    
+    const loginDiv = document.createElement('div');
+    loginDiv.id = 'loginScreen';
+    loginDiv.style.cssText = "position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #0f172a; z-index: 99999; display: flex; align-items: center; justify-content: center; transition: opacity 0.5s;";
+    
+    loginDiv.innerHTML = 
+        <div style="background: white; padding: 2.5rem; border-radius: 20px; width: 90%; max-width: 400px; text-align: center; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.3);">
+            <h2 style="color: #0ea5e9; margin-bottom: 0.5rem; font-size: 1.8rem;">تطبيق حجوزاتي</h2>
+            <p style="color: #64748b; margin-bottom: 2rem; font-size: 0.95rem;">سجل دخولك للمتابعة وحجز الأطباء</p>
+            
+            <form id="dynamicLoginForm">
+                <div style="margin-bottom: 1.25rem; text-align: right;">
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; font-size: 0.9rem;">اسم المستخدم أو المريض</label>
+                    <input type="text" id="loginName" required placeholder="أدخل اسمك الكريم" style="width: 100%; padding: 0.75rem; border: 1px solid #cbd5e1; border-radius: 10px; outline: none; font-size: 1rem;">
+                </div>
+                <div style="margin-bottom: 1.5rem; text-align: right;">
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; font-size: 0.9rem;">رقم الهاتف</label>
+                    <input type="tel" id="loginPhone" required placeholder="07xxxxxxxxx" style="width: 100%; padding: 0.75rem; border: 1px solid #cbd5e1; border-radius: 10px; outline: none; font-size: 1rem;">
+                </div>
+                <button type="submit" style="background: #0ea5e9; color: white; border: none; width: 100%; padding: 0.85rem; border-radius: 10px; font-weight: 700; font-size: 1rem; cursor: pointer;">دخول إلى التطبيق</button>
+            </form>
+        </div>
+    ;
+    
+    document.body.appendChild(loginDiv);
+
+    // تفعيل حدث إخفاء شاشة تسجيل الدخول عند الضغط على دخول
+    setTimeout(() => {
+        const dynForm = document.getElementById('dynamicLoginForm');
+        if (dynForm) {
+            dynForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const screen = document.getElementById('loginScreen');
+                if (screen) {
+                    screen.style.opacity = '0';
+                    setTimeout(() => screen.remove(), 500);
+                }
+            });
+        }
+    }, 500);
+})();
