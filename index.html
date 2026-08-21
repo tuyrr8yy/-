@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>طبيبك | حجز المواعيد</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Tahoma", "Arial", sans-serif;
+      background: #f6f8fb;
+      color: #172033;
+    }
+
+    /* ===== الهيدر ===== */
+    header {
+      background: #ffffff;
+      border-bottom: 1px solid #e8edf3;
+      padding: 20px 7%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 27px;
+      font-weight: bold;
+      color: #0b8f87;
+    }
+
+    .logo span {
+      color: #172033;
+    }
+
+    nav {
+      display: flex;
+      gap: 30px;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #4d586b;
+      font-size: 15px;
+      transition: 0.3s;
+    }
+
+    nav a:hover {
+      color: #0b8f87;
+    }
+
+    .login-btn {
+      border: 1px solid #0b8f87;
+      color: #0b8f87;
+      background: white;
+      padding: 10px 22px;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    /* ===== القسم الرئيسي ===== */
+    .hero {
+      background: linear-gradient(135deg, #063f43, #087e7a);
+      color: white;
+      padding: 75px 7%;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-content {
+      max-width: 700px;
+    }
+
+    .hero h1 {
+      font-size: 46px;
+      line-height: 1.3;
+      margin-bottom: 20px;
+    }
+
+    .hero p {
+      font-size: 18px;
+      color: #dcefee;
+      line-height: 1.8;
+      margin-bottom: 35px;
+    }
+
+    .search-box {
+      background: white;
+      padding: 10px;
+      border-radius: 15px;
+      display: flex;
+      max-width: 650px;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+    }
+
+    .search-box input {
+      flex: 1;
+      border: none;
+      outline: none;
+      padding: 15px;
+      font-size: 15px;
+      text-align: right;
+    }
+
+    .search-box button {
+      border: none;
+      background: #d4a84f;
+      color: white;
+      padding: 0 30px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    /* ===== المحتوى ===== */
+    .container {
+      width: 86%;
+      max-width: 1250px;
+      margin: 55px auto;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+
+    .section-header h2 {
+      font-size: 28px;
+    }
+
+    .section-header p {
+      color: #7a8494;
+      margin-top: 8px;
+    }
+
+    .filter {
+      padding: 12px 20px;
+      border: 1px solid #dfe5ec;
+      background: white;
+      border-radius: 10px;
+      color: #555;
+    }
+
+    /* ===== بطاقات الأطباء ===== */
+    .doctors {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 25px;
+    }
+
+    .doctor-card {
+      background: white;
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid #e9edf2;
+      transition: 0.3s;
+      box-shadow: 0 8px 25px rgba(20, 40, 60, 0.05);
+    }
+
+    .doctor-card:hover {
+      transform: translateY(-7px);
+      box-shadow: 0 18px 40px rgba(20, 40, 60, 0.12);
+    }
+
+    .doctor-image {
+      height: 230px;
+      background: linear-gradient(135deg, #dceeed, #edf5f5);
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      position: relative;
+    }
+
+    .doctor-image img {
+      width: 185px;
+      height: 185px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 6px solid white;
+      margin-bottom: 15px;
+    }
+
+    .available {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      background: #e5f8ef;
+      color: #15915c;
+      padding: 7px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    .doctor-info {
+      padding: 23px;
+    }
+
+    .doctor-name {
+      font-size: 21px;
+      margin-bottom: 8px;
+    }
+
+    .specialty {
+      color: #0b8f87;
+      font-size: 14px;
+      margin-bottom: 15px;
+    }
+
+    .rating {
+      color: #d4a84f;
+      margin-bottom: 18px;
+    }
+
+    .rating span {
+      color: #6e7786;
+      font-size: 13px;
+      margin-right: 7px;
+    }
+
+    .details {
+      display: flex;
+      justify-content: space-between;
+      border-top: 1px solid #edf0f4;
+      padding-top: 17px;
+      margin-bottom: 20px;
+      color: #687384;
+      font-size: 13px;
+    }
+
+    .price {
+      color: #172033;
+      font-weight: bold;
+      font-size: 17px;
+    }
+
+    .book-btn {
+      width: 100%;
+      border: none;
+      background: #0b8f87;
+      color: white;
+      padding: 14px;
+      border-radius: 11px;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .book-btn:hover {
+      background: #076e69;
+    }
+
+    /* ===== الفوتر ===== */
+    footer {
+      background: #101b2c;
+      color: white;
+      padding: 35px 7%;
+      margin-top: 70px;
+      text-align: center;
+    }
+
+    footer p {
+      color: #aab3c1;
+      font-size: 14px;
+    }
+
+    /* ===== الجوال ===== */
+    @media (max-width: 900px) {
+      .doctors {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      nav {
+        display: none;
+      }
+
+      .hero h1 {
+        font-size: 36px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      header {
+        padding: 17px 5%;
+      }
+
+      .container {
+        width: 90%;
+      }
+
+      .doctors {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        padding: 55px 5%;
+      }
+
+      .hero h1 {
+        font-size: 30px;
+      }
+
+      .search-box {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .search-box button {
+        padding: 14px;
+      }
+
+      .section-header {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 15px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- الهيدر -->
+  <header>
+    <div class="logo">طبيب<span>ك</span></div>
+
+    <nav>
+      <a href="#">الرئيسية</a>
+      <a href="#">الأطباء</a>
+      <a href="#">التخصصات</a>
+      <a href="#">من نحن</a>
+      <a href="#">تواصل معنا</a>
+    </nav>
+
+    <button class="login-btn">تسجيل الدخول</button>
+  </header>
+
+
+  <!-- القسم الرئيسي -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>رعايتك الصحية تبدأ من هنا</h1>
+
+      <p>
+        اكتشف نخبة من الأطباء المتخصصين واحجز موعدك بسهولة
+        في الوقت والمكان المناسبين لك.
+      </p>
+
+      <div class="search-box">
+        <input
+          type="text"
+          placeholder="ابحث عن طبيب أو تخصص..."
+        >
+
+        <button>بحث عن طبيب</button>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- قائمة الأطباء -->
+  <main class="container">
+
+    <div class="section-header">
+      <div>
+        <h2>أفضل الأطباء</h2>
+        <p>اختر الطبيب المناسب واحجز موعدك الآن</p>
+      </div>
+
+      <select class="filter">
+        <option>جميع التخصصات</option>
+        <option>طب الأسنان</option>
+        <option>أمراض القلب</option>
+        <option>الأطفال</option>
+        <option>الجلدية</option>
+      </select>
+    </div>
+
+
+    <div class="doctors">
+
+      <!-- الطبيب الأول -->
+      <div class="doctor-card">
+
+        <div class="doctor-image">
+          <span class="available">متاح اليوم</span>
+
+          <img
+            src="https://i.pravatar.cc/300?img=12"
+            alt="د. أحمد محمد"
+          >
+        </div>
+
+        <div class="doctor-info">
+
+          <h3 class="doctor-name">د. أحمد محمد</h3>
+
+          <div class="specialty">
+            استشاري أمراض القلب
+          </div>
+
+          <div class="rating">
+            ★★★★★
+            <span>4.9 (128 تقييم)</span>
+          </div>
+
+          <div class="details">
+            <span>خبرة 15 سنة</span>
+            <span class="price">250 ر.س</span>
+          </div>
+
+          <button class="book-btn">
+            احجز موعد
+          </button>
+
+        </div>
+      </div>
+
+
+      <!-- الطبيب الثاني -->
+      <div class="doctor-card">
+
+        <div class="doctor-image">
+          <span class="available">متاح اليوم</span>
+
+          <img
+            src="https://i.pravatar.cc/300?img=47"
+            alt="د. سارة خالد"
+          >
+        </div>
+
+        <div class="doctor-info">
+
+          <h3 class="doctor-name">د. سارة خالد</h3>
+
+          <div class="specialty">
+            استشارية طب الأطفال
+          </div>
+
+          <div class="rating">
+            ★★★★★
+            <span>4.8 (96 تقييم)</span>
+          </div>
+
+          <div class="details">
+            <span>خبرة 11 سنة</span>
+            <span class="price">180 ر.س</span>
+          </div>
+
+          <button class="book-btn">
+            احجز موعد
+          </button>
+
+        </div>
+      </div>
+
+
+      <!-- الطبيب الثالث -->
+      <div class="doctor-card">
+
+        <div class="doctor-image">
+          <span class="available">متاح غداً</span>
+
+          <img
+            src="https://i.pravatar.cc/300?img=32"
+            alt="د. محمد علي"
+          >
+        </div>
+
+        <div class="doctor-info">
+
+          <h3 class="doctor-name">د. محمد علي</h3>
+
+          <div class="specialty">
+            استشاري طب وجراحة الأسنان
+          </div>
+
+          <div class="rating">
+            ★★★★★
+            <span>4.9 (214 تقييم)</span>
+          </div>
+
+          <div class="details">
+            <span>خبرة 18 سنة</span>
+            <span class="price">220 ر.س</span>
+          </div>
+
+          <button class="book-btn">
+            احجز موعد
+          </button>
+
+        </div>
+      </div>
+
+
+      <!-- الطبيب الرابع -->
+      <div class="doctor-card">
+
+        <div class="doctor-image">
+          <span class="available">متاح اليوم</span>
+
+          <img
+            src="https://i.pravatar.cc/300?img=44"
+            alt="د. نور حسن"
+          >
+        </div>
+
+        <div class="doctor-info">
+
+          <h3 class="doctor-name">د. نور حسن</h3>
+
+          <div class="specialty">
+            استشارية الأمراض الجلدية
+          </div>
+
+          <div class="rating">
+            ★★★★★
+            <span>4.7 (87 تقييم)</span>
+          </div>
+
+          <div class="details">
+            <span>خبرة 9 سنوات</span>
+            <span class="price">200 ر.س</span>
+          </div>
+
+          <button class="book-btn">
+            احجز موعد
+          </button>
+
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+
+  <!-- الفوتر -->
+  <footer>
+    <p>
+      © 2026 طبيبك — منصة حجز المواعيد الطبية
+    </p>
+  </footer>
+
+</body>
+</html>
