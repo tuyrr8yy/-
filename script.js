@@ -114,3 +114,58 @@ fetchDoctors();
         displayDoctors(filtered);
     });
 }
+// معالجة نموذج الحجز وتفعيل الفاتورة التفصيلية
+const bookingForm = document.getElementById('bookingForm');
+if (bookingForm) {
+    bookingForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const patientName = document.getElementById('patientName').value;
+        const patientPhone = document.getElementById('patientPhone').value;
+        const apptDate = document.getElementById('appointmentDate').value;
+        
+        closeModal();
+        
+        // إظهار فاتورة الحجز الرسمية
+        showInvoiceModal(patientName, patientPhone, apptDate, selectedDoctorName);
+    });
+}
+
+// دالة عرض فاتورة الحجز وتفاصيلها للمريض
+function showInvoiceModal(name, phone, date, doctor) {
+    const invoiceDiv = document.createElement('div');
+    invoiceDiv.style.cssText = "position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 4000; display: flex; align-items: center; justify-content: center;";
+    
+    invoiceDiv.innerHTML = 
+        <div style="background: white; padding: 2rem; border-radius: 20px; width: 90%; max-width: 450px; text-align: right; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);">
+            <div style="text-align: center; margin-bottom: 1.5rem;">
+                <i class="fa-solid fa-circle-check" style="font-size: 3rem; color: #10b981; margin-bottom: 0.5rem;"></i>
+                <h3 style="color: #1e293b; font-size: 1.4rem;">تم تأكيد حجزك بنجاح!</h3>
+                <p style="color: #64748b; font-size: 0.85rem;">شكراً لاستخدامك تطبيق (حجوزاتي)</p>
+            </div>
+            <div style="background: #f8fafc; padding: 1rem; border-radius: 12px; margin-bottom: 1.5rem; font-size: 0.95rem; color: #334155; line-height: 1.8;">
+                <div><strong>الطبيب:</strong> ${doctor}</div>
+                <div><strong>اسم المريض:</strong> ${name}</div>
+                <div><strong>رقم الهاتف:</strong> ${phone}</div>
+                <div><strong>موعد الكشفية:</strong> ${date}</div>
+            </div>
+            <button onclick="this.parentElement.parentElement.remove()" style="background: #0ea5e9; color: white; border: none; width: 100%; padding: 0.75rem; border-radius: 10px; font-weight: 700; cursor: pointer;">تم، إغلاق الفاتورة</button>
+        </div>
+    ;
+    document.body.appendChild(invoiceDiv);
+}
+
+// إخفاء شاشة تسجيل الدخول بعد كتابة البيانات
+const loginForm = document.getElementById('loginForm');
+if (loginForm) {
+    loginForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const loginScreen = document.getElementById('loginScreen');
+        if (loginScreen) {
+            loginScreen.style.opacity = '0';
+            setTimeout(() => {
+                loginScreen.remove();
+            }, 500);
+        }
+    });
+}
